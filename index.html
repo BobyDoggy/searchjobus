@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SearchJobUs — Suivi de candidatures</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>SearchJobUs</h1>
+        <p class="subtitle">Suivi de vos candidatures</p>
+      </div>
+      <button id="btn-add" class="btn btn-primary">+ Nouvelle candidature</button>
+    </header>
+
+    <div class="stats-bar">
+      <div class="stat-card">
+        <span class="stat-value" id="stat-total">0</span>
+        <span class="stat-label">Candidatures</span>
+      </div>
+      <div class="stat-card stat-warning">
+        <span class="stat-value" id="stat-followup">0</span>
+        <span class="stat-label">À relancer</span>
+      </div>
+      <div class="stat-card stat-success">
+        <span class="stat-value" id="stat-interview">0</span>
+        <span class="stat-label">Entretiens</span>
+      </div>
+    </div>
+
+    <div class="table-wrapper">
+      <table id="applications-table">
+        <thead>
+          <tr>
+            <th>Entreprise</th>
+            <th>Contact</th>
+            <th>Date de dépôt</th>
+            <th>Prétention salariale</th>
+            <th>Statut</th>
+            <th>Commentaire</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+      </table>
+      <div id="empty-state" class="empty-state hidden">
+        <div class="empty-icon">📋</div>
+        <p>Aucune candidature enregistrée.</p>
+        <p class="empty-sub">Cliquez sur "Nouvelle candidature" pour commencer.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal : Ajout / Édition -->
+  <div id="modal-form" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-overlay" id="modal-overlay-form"></div>
+    <div class="modal-content">
+      <h2 id="modal-title">Nouvelle candidature</h2>
+      <form id="application-form" novalidate>
+        <input type="hidden" id="form-id">
+
+        <div class="form-group">
+          <label for="form-company">Entreprise <span class="required">*</span></label>
+          <input type="text" id="form-company" required placeholder="Ex : Acme Corp">
+        </div>
+
+        <div class="form-group">
+          <label for="form-contact">Contact</label>
+          <input type="text" id="form-contact" placeholder="Nom, email ou téléphone du recruteur">
+        </div>
+
+        <div class="form-group">
+          <label for="form-date">Date de dépôt <span class="required">*</span></label>
+          <input type="date" id="form-date" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="form-salary-min">Salaire min (€/an)</label>
+            <input type="number" id="form-salary-min" placeholder="Ex : 32000" min="0" step="500">
+          </div>
+          <div class="form-group">
+            <label for="form-salary-max">Salaire max (€/an)</label>
+            <input type="number" id="form-salary-max" placeholder="Ex : 42000" min="0" step="500">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="form-status">Statut</label>
+          <select id="form-status">
+            <option value="sent">Envoyée</option>
+            <option value="relaunched">Relancée</option>
+            <option value="interview">Entretien planifié</option>
+            <option value="rejected">Refusée</option>
+            <option value="offer">Offre reçue</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="form-comment">Commentaire</label>
+          <textarea id="form-comment" placeholder="Notes, informations supplémentaires..." rows="3"></textarea>
+        </div>
+
+        <div id="form-error" class="form-error hidden">Veuillez remplir les champs obligatoires.</div>
+
+        <div class="modal-actions">
+          <button type="button" id="btn-cancel" class="btn btn-secondary">Annuler</button>
+          <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal : Confirmation de suppression -->
+  <div id="modal-delete" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-overlay" id="modal-overlay-delete"></div>
+    <div class="modal-content modal-small">
+      <h2>Confirmer la suppression</h2>
+      <p>Voulez-vous vraiment supprimer la candidature pour <strong id="delete-company-name"></strong> ?</p>
+      <div class="modal-actions">
+        <button id="btn-cancel-delete" class="btn btn-secondary">Annuler</button>
+        <button id="btn-confirm-delete" class="btn btn-danger">Supprimer</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
