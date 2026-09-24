@@ -13,7 +13,12 @@
         <h1>SearchJobUs</h1>
         <p class="subtitle">Suivi de vos candidatures</p>
       </div>
-      <button id="btn-add" class="btn btn-primary">+ Nouvelle candidature</button>
+      <div class="header-actions">
+        <label for="input-import-csv" class="btn btn-secondary" title="Importer des candidatures depuis un fichier CSV">Importer CSV</label>
+        <input type="file" id="input-import-csv" accept=".csv,text/csv" class="visually-hidden">
+        <button id="btn-export" class="btn btn-secondary" title="Exporter les candidatures au format CSV">Exporter CSV</button>
+        <button id="btn-add" class="btn btn-primary">+ Nouvelle candidature</button>
+      </div>
     </header>
 
     <div class="stats-bar">
@@ -31,26 +36,84 @@
       </div>
     </div>
 
-    <div class="table-wrapper">
-      <table id="applications-table">
-        <thead>
-          <tr>
-            <th>Entreprise</th>
-            <th>Contact</th>
-            <th>Date de dépôt</th>
-            <th>Prétention salariale</th>
-            <th>Statut</th>
-            <th>Commentaire</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody id="table-body"></tbody>
-      </table>
-      <div id="empty-state" class="empty-state hidden">
-        <div class="empty-icon">📋</div>
-        <p>Aucune candidature enregistrée.</p>
-        <p class="empty-sub">Cliquez sur "Nouvelle candidature" pour commencer.</p>
+    <div class="main-layout">
+      <div class="table-panel">
+        <div class="table-wrapper">
+          <table id="applications-table">
+            <thead>
+              <tr>
+                <th>Entreprise</th>
+                <th>Contact</th>
+                <th>Date de dépôt</th>
+                <th>Prétention salariale</th>
+                <th>Statut</th>
+                <th>Commentaire</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="table-body"></tbody>
+          </table>
+          <div id="empty-state" class="empty-state hidden">
+            <div class="empty-icon">📋</div>
+            <p>Aucune candidature enregistrée.</p>
+            <p class="empty-sub">Cliquez sur "Nouvelle candidature" pour commencer.</p>
+          </div>
+        </div>
       </div>
+
+      <aside class="followup-panel">
+        <div class="followup-panel-header">
+          <div>
+            <h2 id="followup-title">Suivi</h2>
+            <p class="followup-subtitle" id="followup-subtitle">Sélectionnez une candidature</p>
+          </div>
+          <div class="followup-panel-actions">
+            <label for="input-import-followups-csv" class="btn btn-icon" title="Importer les suivis depuis un CSV">📥</label>
+            <input type="file" id="input-import-followups-csv" accept=".csv,text/csv" class="visually-hidden">
+            <button id="btn-export-followups" class="btn btn-icon" title="Exporter tous les suivis en CSV">📤</button>
+          </div>
+        </div>
+
+        <div id="followup-empty" class="empty-state">
+          <div class="empty-icon">👉</div>
+          <p>Cliquez sur une candidature dans le tableau pour voir et gérer son suivi.</p>
+        </div>
+
+        <div id="followup-body" class="hidden">
+          <button id="btn-add-followup" class="btn btn-secondary btn-block">+ Ajouter un suivi</button>
+
+          <form id="followup-form" class="followup-form hidden" novalidate>
+            <input type="hidden" id="followup-form-id">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="followup-form-date">Date <span class="required">*</span></label>
+                <input type="date" id="followup-form-date" required>
+              </div>
+              <div class="form-group">
+                <label for="followup-form-type">Type</label>
+                <select id="followup-form-type">
+                  <option value="email">Email</option>
+                  <option value="call">Appel</option>
+                  <option value="relance">Relance</option>
+                  <option value="interview">Entretien</option>
+                  <option value="note">Note</option>
+                  <option value="other">Autre</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="followup-form-note">Note</label>
+              <textarea id="followup-form-note" rows="2" placeholder="Détails du suivi..."></textarea>
+            </div>
+            <div class="modal-actions">
+              <button type="button" id="btn-cancel-followup" class="btn btn-secondary">Annuler</button>
+              <button type="submit" class="btn btn-primary">Enregistrer</button>
+            </div>
+          </form>
+
+          <ul id="followup-list" class="followup-list"></ul>
+        </div>
+      </aside>
     </div>
   </div>
 
